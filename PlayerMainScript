@@ -1,0 +1,59 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMainScript : MonoBehaviour
+{
+    [SerializeField]
+    internal PlayerMoveScript moveScript;
+    
+    [SerializeField]
+    internal PlayerInputScript inputScript;
+    
+    [SerializeField]
+    internal Rigidbody2D rb;
+
+    [SerializeField]
+    internal Sprite[] sprites;
+    internal SpriteRenderer spriteRen {
+        get {
+            return GetComponent<SpriteRenderer>();
+        }
+    }
+
+    internal GameScript gameScript;
+    public float damageTime;
+    private bool _isAlive = true;
+    internal bool isAlive {
+        get {
+            return _isAlive;
+        }
+
+        set {
+            _isAlive = value;
+            if (value == false) {
+                moveScript.stop();
+            }
+        }
+    }
+    
+    public int health;
+
+    internal void takeDamage () {
+        StartCoroutine(illuminate());
+        Debug.Log("Taking Damage!");
+    }
+
+    IEnumerator illuminate () {
+        spriteRen.sprite = sprites[1];
+        yield return new WaitForSeconds(damageTime);
+        spriteRen.sprite = sprites[0];
+        health--;
+        if (health <= 0) die();
+    }
+
+    private void die () {
+        spriteRen.enabled = false;
+        isAlive = false;
+    }
+}
