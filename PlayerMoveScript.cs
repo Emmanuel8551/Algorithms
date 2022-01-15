@@ -26,10 +26,8 @@ public class PlayerMoveScript : MonoBehaviour
     }
 
     private void manageMoveKeys () {
-        if (mainScript.isAlive) {
-            if (curDir.magnitude != 0) manageMoveForward();
-            else if (velocity.magnitude > 0) manageBraking();
-        }
+        if (curDir.magnitude != 0) manageMoveForward();
+        else if (velocity.magnitude > 0) manageBraking();
     }
 
     internal void stop() {
